@@ -15,6 +15,7 @@ function App() {
   return (
     <main className="container">
       <h1 className="row">Rhyme Finder in React (579 Problem Set 6)</h1>
+      <h6>Link to GitHub repo: <a href='https://github.com/KnightTuring/si579-ps6-react'>https://github.com/KnightTuring/si579-ps6-react</a></h6>
       <div className="row">
         <SavedWord 
           wordList = {savedWords}
