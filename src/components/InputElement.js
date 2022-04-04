@@ -26,6 +26,12 @@ const InputElement = (props) => {
         })
     }
 
+    const handleKeyPress = (e) => {
+        if(e.key === 'Enter') {
+            findRhymingWords()
+        }
+    }
+
     return (
         <div className="input-group col">
             <input 
@@ -33,11 +39,14 @@ const InputElement = (props) => {
                 type="text" 
                 value={wordInput}
                 onChange={(e) => setWordInput(e.target.value)}
+                onKeyPress={(e) => handleKeyPress(e)}
                 placeholder="Enter a word"/>
             <button 
                 className = "btn btn-primary" 
                 type="button"
-                onClick={(e) => findRhymingWords(e.target.value)}>
+                onClick={(e) => findRhymingWords(e.target.value)}
+                tabIndex="0"
+                >
                 Show rhyming words
             </button>
             <button 

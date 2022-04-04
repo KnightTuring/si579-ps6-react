@@ -1,14 +1,10 @@
 const OutputDescription = (props) => {
-    const {word, rhymeFlag } = props
+    const {word, rhymeFlag, output } = props
 
     if(word) {
-        if(rhymeFlag) {
-            return(<h2>Words that rhyme with {word}:</h2>)
-        } else {
-            return(<h2>Words with a meaning similar to {word}:</h2>)
-        }
+        return(<h4>{output}</h4>)
     } else {
-        return(<h2></h2>)
+        return(<h3></h3>)
     }
 }
 

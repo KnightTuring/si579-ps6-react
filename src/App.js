@@ -11,6 +11,7 @@ function App() {
   const [findRhyme, setFindRhyme] = useState(true)
   const [wordToSearch, setWordToSearch] = useState("")
   const [savedWords, setSavedWords] = useState([])
+  const [outputTitle, setOutputTitle] = useState("")
 
   return (
     <main className="container">
@@ -30,7 +31,7 @@ function App() {
       </div>
 
       <div className="row">
-        <OutputDescription word = {wordToSearch} rhymeFlag = {findRhyme}/>
+        <OutputDescription word = {wordToSearch} rhymeFlag = {findRhyme} output = {outputTitle}/>
       </div>
     
       {/* Word inputted and flag of which operation to perform will be passed as props to the WordDisplay component */}
@@ -38,6 +39,7 @@ function App() {
         wordInput = {wordToSearch} 
         findRhyme = {findRhyme} 
         addSavedWord = {setSavedWords}
+        setTitle = {setOutputTitle}
       />
     </main>
   );

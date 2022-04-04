@@ -5,7 +5,7 @@ import {groupBy, getDatamuseRhymeUrl, datamuseRequest, getDatamuseSimilarToUrl} 
 
 
 const WordDisplay = (props) => {
-    const{wordInput, findRhyme, addSavedWord} = props
+    const{wordInput, findRhyme, addSavedWord, setTitle} = props
     
     const defaultRhymingWords = []
 
@@ -13,6 +13,7 @@ const WordDisplay = (props) => {
     
     const [rhymingWords, setRhymingWords] = useState(defaultRhymingWords)
     const [synonyms, setSynonyms] = useState(defaultSynonyms)
+    const [loading, setLoading] = useState(false)
 
     const setDisplayWords = (allData) => {
         let groupedData = groupBy(allData, 'numSyllables')
@@ -31,48 +32,61 @@ const WordDisplay = (props) => {
     }
 
     useEffect(() => {
-        console.log("Changed")
         if(findRhyme === true) {
+            setRhymingWords([])
             if(wordInput) {
-                datamuseRequest(getDatamuseRhymeUrl(wordInput), setDisplayWords);
-                
+                datamuseRequest(getDatamuseRhymeUrl(wordInput), setLoading, setDisplayWords);
             }
         } else {
             if(wordInput) {
-                datamuseRequest(getDatamuseSimilarToUrl(wordInput), setSynonymsDisplay)
+                setSynonyms([])
+                datamuseRequest(getDatamuseSimilarToUrl(wordInput), setLoading, setSynonymsDisplay)
             }
         }
     }, [wordInput, findRhyme])
 
     if(findRhyme === true) {
         if(wordInput) {
-            return(
-                <div className="output row">
-                    {rhymingWords.map((item) => 
-                        <RhymingWord 
-                            word = {item.values} 
-                            count = {item.count} 
-                            saveSetter = {addSavedWord}
-                        />
-                    )}
-                </div>
-            )
-        }
-        
-    } else {
-        if(wordInput) {
-            return(
-                <div className="output row">
-                    <ul>
-                        {synonyms.map((item) => 
-                            <Synonyms 
-                                word = {item.word} 
+            if(loading) {
+                setTitle("Loading...")
+            } else if(rhymingWords.length === 0) {
+                setTitle(`There are no words that rhyme with ${wordInput}`)
+            } else {
+                setTitle(`Words that rhyme with ${wordInput} are:`)
+                return(
+                    <div className="output row">
+                        {rhymingWords.map((item) => 
+                            <RhymingWord 
+                                word = {item.values} 
+                                count = {item.count} 
                                 saveSetter = {addSavedWord}
                             />
                         )}
-                    </ul>
-                </div> 
-            )
+                    </div>
+                )
+            }
+        }
+    } else {
+        if(wordInput) {
+            if(loading) {
+                setTitle("Loading...")
+            } else if(synonyms.length === 0) {
+                setTitle(`There are no synonyms for ${wordInput}`)
+            } else {
+                setTitle(`Synonyms for ${wordInput} are:`)
+                return(
+                    <div className="output row">
+                        <ul>
+                            {synonyms.map((item) => 
+                                <Synonyms 
+                                    word = {item.word} 
+                                    saveSetter = {addSavedWord}
+                                />
+                            )}
+                        </ul>
+                    </div> 
+                )
+            }
         }
     }
 

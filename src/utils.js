@@ -1,10 +1,14 @@
-export const datamuseRequest = (url, callback) => {
+export const datamuseRequest = (url, setLoading, callback) => {
+    console.log("Waiting")
+    setLoading(true)
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
+            setLoading(false)
             // This invokes the callback that updates the page.
             return callback(data);
         }, (err) => {
+            setLoading(false)
             console.error(err);
         });
 }

@@ -10,7 +10,7 @@ const RhymingWord = (props) => {
 
         return (
             <output className="row">
-            <h3>Syllable count: {count}</h3>
+            <h5>Syllable count: {count}</h5>
             <ul>
                 {
                     word.map((item) => 
